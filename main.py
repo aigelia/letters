@@ -3,13 +3,14 @@ import os
 import smtplib
 
 load_dotenv()
-load_dotenv("/Users/mayakovskaya_k/Documents/Python projects/letters/login.env")
 
 email = os.getenv("EMAIL")
 password = os.getenv("PASSWORD")
+mail_from = "devmanorg@yandex.ru"
+mail_to = "89372361065@list.ru"
 
-letter = """From: devmanorg@yandex.ru
-To: 89372361065@list.ru
+letter = """From: %mail_from%
+To: %mail_to%
 Subject: Приглашение
 Content-Type: text/plain; charset="UTF-8";
 
@@ -33,10 +34,11 @@ Content-Type: text/plain; charset="UTF-8";
 letter = letter.replace("%website%", "https://dvmn.org/profession-ref-program/e.mayakovskaya/6BNMc/")
 letter = letter.replace("%friend_name%","Иван Иванов")
 letter = letter.replace("%my_name%","Катерина Маяковская")
+letter = letter.replace("%mail_from%", mail_from)
+letter = letter.replace("%mail_to%", mail_to)
 letter = letter.encode("UTF-8")
-print(letter)
 
 server = smtplib.SMTP_SSL('smtp.yandex.ru', 465)
 server.login(email, password)
-server.sendmail("devmanorg@yandex.ru", "89372361065@list.ru", letter)
+server.sendmail(email, mail_to, letter)
 server.quit()
